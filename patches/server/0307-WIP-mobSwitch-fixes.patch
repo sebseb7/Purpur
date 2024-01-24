@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: sebseb7 <sebgreenbus@gmail.com>
+Date: Wed, 24 Jan 2024 04:14:28 +0100
+Subject: [PATCH] WIP-mobSwitch-fixes
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/monster/Shulker.java b/src/main/java/net/minecraft/world/entity/monster/Shulker.java
+index 8a52c1ad5e2872e4b484eebc834fa42fd1930481..1babfcf81c1ca9c57aa4031fd15521027389ab0a 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/Shulker.java
++++ b/src/main/java/net/minecraft/world/entity/monster/Shulker.java
+@@ -544,7 +544,7 @@ public class Shulker extends AbstractGolem implements VariantHolder<Optional<Dye
+                 if (entityshulker != null) {
+                     entityshulker.setVariant(this.getVariant());
+                     entityshulker.moveTo(vec3d);
+-                    this.level().addFreshEntity(entityshulker, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - the mysteries of life
++                    this.level().addFreshEntity(entityshulker, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.NATURAL); // CraftBukkit - the mysteries of life
+                 }
+ 
+             }
+diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
+index 2ff1072bd122a60b6fc9b1c6791bb62ee37fc3db..a5b77bebf33d284dea1fca60e2af81553e993568 100644
+--- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
++++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
+@@ -97,6 +97,7 @@ public final class NaturalSpawner {
+                 // Paper start - Only count natural spawns
+                 if (!entity.level().paperConfig().entities.spawning.countAllMobsForSpawning &&
+                     !(entity.spawnReason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.NATURAL ||
++                        entity.spawnReason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.INFECTION ||
+                         entity.spawnReason == org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.CHUNK_GEN)) {
+                     continue;
+                 }

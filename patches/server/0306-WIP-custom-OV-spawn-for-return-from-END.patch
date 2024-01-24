@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: sebseb7 <sebgreenbus@gmail.com>
+Date: Wed, 24 Jan 2024 04:12:28 +0100
+Subject: [PATCH] WIP-custom-OV-spawn-for-return-from-END
+
+
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index 98d12b07bf0e374764063a24e85b7f126abc20d5..11173f08d1ebd9a376863a5a43792eafe84c309c 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -3844,8 +3844,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+             if (flag1) {
+                 blockposition1 = ServerLevel.END_SPAWN_POINT;
+             } else {
+-                destination.getChunkAt(destination.getSharedSpawnPos()); // Paper - Ensure spawn chunk is always loaded before calculating Y coordinate
+-                blockposition1 = destination.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, destination.getSharedSpawnPos());
++                destination.getChunkAt(new BlockPos(0,70,0)); // Paper - Ensure spawn chunk is always loaded before calculating Y coordinate
++                blockposition1 = destination.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(0,70,0));
+             }
+             // CraftBukkit start
+             CraftPortalEvent event = this.callPortalEvent(this, destination, new Vec3(blockposition1.getX() + 0.5D, blockposition1.getY(), blockposition1.getZ() + 0.5D), PlayerTeleportEvent.TeleportCause.END_PORTAL, 0, 0);
