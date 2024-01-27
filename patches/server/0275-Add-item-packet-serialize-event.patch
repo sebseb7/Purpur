@@ -36,10 +36,10 @@ index b863249ff7e13cf4939c8961601f0564c62fd661..bdcfd80f937c34956911373905d66424
  
              this.writeId(BuiltInRegistries.ITEM, item);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 9424b1383681b9f875af1a4245a58b8fd7811642..fb260519d6546392a3fce8fcc1f80884cce0fabe 100644
+index c2efe364e3b7d87bb67e48d24c6bf039691c3094..ac6aec92248aebe3371a72ffd36fc6e784a52c44 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1719,6 +1719,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1722,6 +1722,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          //MinecraftTimings.timeUpdateTimer.stopTiming(); // Spigot // Paper // Purpur
  
          this.isIteratingOverLevels = true; // Paper - Throw exception on world create while being ticked
@@ -48,7 +48,7 @@ index 9424b1383681b9f875af1a4245a58b8fd7811642..fb260519d6546392a3fce8fcc1f80884
          while (iterator.hasNext()) {
              ServerLevel worldserver = (ServerLevel) iterator.next();
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 651afbf1334da2a072c03636e84362a5f88a809a..af592c7c82471d75381d77e43c8f81b525df217d 100644
+index 92b3e39d5dfd9c672c00ceb154b2bc0f43256cc9..b120503315ea4389a18333c5a84e664ceddc4ead 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -3362,6 +3362,12 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
