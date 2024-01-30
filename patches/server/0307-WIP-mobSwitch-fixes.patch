@@ -5,20 +5,20 @@ Subject: [PATCH] WIP-mobSwitch-fixes
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Shulker.java b/src/main/java/net/minecraft/world/entity/monster/Shulker.java
-index 8a52c1ad5e2872e4b484eebc834fa42fd1930481..1babfcf81c1ca9c57aa4031fd15521027389ab0a 100644
+index ab21a44905a4154013cd65acdecbf55b741da086..c8bb2b4468d79e7cc5ee6ed354f9fd7c0f07c4e6 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Shulker.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Shulker.java
-@@ -544,7 +544,7 @@ public class Shulker extends AbstractGolem implements VariantHolder<Optional<Dye
-                 if (entityshulker != null) {
-                     entityshulker.setVariant(this.getVariant());
-                     entityshulker.moveTo(vec3d);
+@@ -549,7 +549,7 @@ public class Shulker extends AbstractGolem implements VariantHolder<Optional<Dye
+                         return;
+                     }
+                     // Paper end - Shulker duplicate event
 -                    this.level().addFreshEntity(entityshulker, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.BREEDING); // CraftBukkit - the mysteries of life
 +                    this.level().addFreshEntity(entityshulker, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.NATURAL); // CraftBukkit - the mysteries of life
                  }
  
              }
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 2ff1072bd122a60b6fc9b1c6791bb62ee37fc3db..a5b77bebf33d284dea1fca60e2af81553e993568 100644
+index 4d9e831f08cd3ed3765560964e88a412962a760b..140ca139a64d53cc24b6d64f996f39c482cce4d3 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -97,6 +97,7 @@ public final class NaturalSpawner {

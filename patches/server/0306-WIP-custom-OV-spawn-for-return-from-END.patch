@@ -5,10 +5,10 @@ Subject: [PATCH] WIP-custom-OV-spawn-for-return-from-END
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 98d12b07bf0e374764063a24e85b7f126abc20d5..11173f08d1ebd9a376863a5a43792eafe84c309c 100644
+index a83a6cd64345ff0d14e4dfad01566d8dc86c8416..8d06baa206622771b2ebc7bbd5cc3009684a806f 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -3844,8 +3844,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
+@@ -3839,8 +3839,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource, S
              if (flag1) {
                  blockposition1 = ServerLevel.END_SPAWN_POINT;
              } else {
