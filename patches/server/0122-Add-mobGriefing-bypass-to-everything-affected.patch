@@ -5,10 +5,10 @@ Subject: [PATCH] Add mobGriefing bypass to everything affected
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 43428fecf9b29cbf53ee18567ac797b9e84da6ad..e3723269a5651d02521da5cc0bca615bb3c81c61 100644
+index 02be3c960bc89464b589a557d4269fce8fb88766..0461debc992ad7812a28ea73f3e18d5c0c22f700 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1808,7 +1808,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -1818,7 +1818,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
              boolean flag = false;
  
              if (this.dead && adversary instanceof WitherBoss) { // Paper
@@ -18,10 +18,10 @@ index 43428fecf9b29cbf53ee18567ac797b9e84da6ad..e3723269a5651d02521da5cc0bca615b
                      BlockState iblockdata = Blocks.WITHER_ROSE.defaultBlockState();
  
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index aa9c5397361bc109d9d910b9c9510ca7394a4da4..4383b2555cb416fce7b62b046211dbc3e8c75601 100644
+index 050d6705cfa7ce59b85a3120a0569b3e8f9be6b7..56ba7ac3d9d1f65de84f98eb724761d6bb374d47 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -705,7 +705,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -706,7 +706,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
      public void aiStep() {
          super.aiStep();
          this.level().getProfiler().push("looting");
@@ -92,10 +92,10 @@ index 5580a396a56c6e0f364a5368985ee99b9e2be0a8..3facfd6eee17cb0b59425494c966e198
          } else if (this.nextStartTick > 0) {
              --this.nextStartTick;
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Fox.java b/src/main/java/net/minecraft/world/entity/animal/Fox.java
-index 78558d24d0434fd6d90af81c38d8d9d03d79253f..292504cb09ac94f593fdde317030c7662f9e500c 100644
+index 4f1ae50564a7e646172b3b923d15a002ee736601..5ddc3e997fec6417c379561f60c438386030d49d 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Fox.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Fox.java
-@@ -1385,7 +1385,7 @@ public class Fox extends Animal implements VariantHolder<Fox.Type> {
+@@ -1401,7 +1401,7 @@ public class Fox extends Animal implements VariantHolder<Fox.Type> {
          }
  
          protected void onReachedTarget() {
@@ -118,11 +118,11 @@ index c25776ef9805f3f4e31ca5b027e6577526e48819..86502ef70f2213191d1348ef98969c5c
                  }
  
 diff --git a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
-index 6fac5dbbbd9600e82b1dd1496680f551ab44313e..fd64a12c7f215f47d366af60882981c2cc0ef04f 100644
+index b97f892fe5824b5275905cd51599bea17da3dd19..1d70a108293a61b7813b70cc9ce600a3e7b167d5 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/SnowGolem.java
 @@ -127,7 +127,7 @@ public class SnowGolem extends AbstractGolem implements Shearable, RangedAttackM
-                 this.hurt(this.damageSources().melting, 1.0F); // CraftBukkit - DamageSource.BURN -> CraftEventFactory.MELTING
+                 this.hurt(this.damageSources().melting(), 1.0F); // CraftBukkit - DamageSources.ON_FIRE -> CraftEventFactory.MELTING
              }
  
 -            if (!this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
@@ -131,10 +131,10 @@ index 6fac5dbbbd9600e82b1dd1496680f551ab44313e..fd64a12c7f215f47d366af60882981c2
              }
  
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 277e0ef0c5dfd61ea21de7898bfe3ffdb7f7e17b..066dc828681ac665e807038d1a2afccb886c3ca6 100644
+index e4b2b35cb1704e61ce0a84cb97578cee7e1eed43..39cf974313c7c0bdcd6599c6c8bec450efe0277a 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -604,7 +604,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -605,7 +605,7 @@ public class EnderDragon extends Mob implements Enemy {
                      BlockState iblockdata = this.level().getBlockState(blockposition);
  
                      if (!iblockdata.isAir() && !iblockdata.is(BlockTags.DRAGON_TRANSPARENT)) {
@@ -144,10 +144,10 @@ index 277e0ef0c5dfd61ea21de7898bfe3ffdb7f7e17b..066dc828681ac665e807038d1a2afccb
                              // flag1 = this.level().removeBlock(blockposition, false) || flag1;
                              flag1 = true;
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index 6bc0713a8bc8ac86f1febe3414bed135c1cd5336..a655c38eccc41d97cfb6d329e104bad6d9ccbc95 100644
+index 0c7623cc87c534cf02ee78a1ffb6928a31758f6f..3cc47b0e05621c913a3e8d04c653bafab4a86744 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -493,7 +493,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
+@@ -494,7 +494,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
  
              if (this.destroyBlocksTick > 0) {
                  --this.destroyBlocksTick;
@@ -157,7 +157,7 @@ index 6bc0713a8bc8ac86f1febe3414bed135c1cd5336..a655c38eccc41d97cfb6d329e104bad6
                      j = Mth.floor(this.getX());
                      int i1 = Mth.floor(this.getZ());
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 1851cd59230447f0d2beed10846de96d497e8a04..4ed9592387531d0880ba322b07ea776cd0b05f03 100644
+index ca2d247be50c1f7c69aeafeafa5b33ea296bf323..93420c7e9b34b40845f12a0058e50e6fd809e6f7 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -549,7 +549,15 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -221,10 +221,10 @@ index 226b44ba4cd3a08562c8cb0d79c1d880cfac34ec..056fa8b12368dac5d1a12962b8ee92e8
                  AABB axisalignedbb = this.getBoundingBox().inflate(0.2D);
                  Iterator iterator = BlockPos.betweenClosed(Mth.floor(axisalignedbb.minX), Mth.floor(axisalignedbb.minY), Mth.floor(axisalignedbb.minZ), Mth.floor(axisalignedbb.maxX), Mth.floor(axisalignedbb.maxY), Mth.floor(axisalignedbb.maxZ)).iterator();
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Silverfish.java b/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
-index 1738f0a251e4cab2eb3f122e83366afb02201765..49a37d294bac8205ac0a795daa300ccc8170c8a8 100644
+index e81c162f7a2061180f81754de341b2c33da76a0d..69f6306b91e535050fe8b22852503dfb0514f316 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Silverfish.java
-@@ -210,7 +210,7 @@ public class Silverfish extends Monster {
+@@ -211,7 +211,7 @@ public class Silverfish extends Monster {
                                      continue;
                                  }
                                  // CraftBukkit end
@@ -233,7 +233,7 @@ index 1738f0a251e4cab2eb3f122e83366afb02201765..49a37d294bac8205ac0a795daa300ccc
                                      world.destroyBlock(blockposition1, true, this.silverfish);
                                  } else {
                                      world.setBlock(blockposition1, ((InfestedBlock) block).hostStateByInfested(world.getBlockState(blockposition1)), 3);
-@@ -248,7 +248,7 @@ public class Silverfish extends Monster {
+@@ -249,7 +249,7 @@ public class Silverfish extends Monster {
              } else {
                  RandomSource randomsource = this.mob.getRandom();
  
@@ -256,10 +256,10 @@ index b5e6a48192592e9bc5a7c0a2775e5d78f06cd46a..03b58860ecb72976ecce99f368d16942
  
      protected boolean canReplaceCurrentItem(ItemStack stack) {
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java b/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
-index 6b67eec90cd0dc1b20762514eac97f75fdbdf182..2dec28091d1816e9d4c749a5155e83031751cf50 100644
+index 9d89872c5958f3e8d6c1ef4fd93f9b8b85296851..6a94c86acce5afbf1e9c8e7d664b3eb2d79ab5ab 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/LargeFireball.java
-@@ -16,20 +16,20 @@ public class LargeFireball extends Fireball {
+@@ -19,20 +19,20 @@ public class LargeFireball extends Fireball {
  
      public LargeFireball(EntityType<? extends LargeFireball> type, Level world) {
          super(type, world);
@@ -284,7 +284,7 @@ index 6b67eec90cd0dc1b20762514eac97f75fdbdf182..2dec28091d1816e9d4c749a5155e8303
              // CraftBukkit start - fire ExplosionPrimeEvent
              ExplosionPrimeEvent event = new ExplosionPrimeEvent((org.bukkit.entity.Explosive) this.getBukkitEntity());
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 2d09d39a5971615a40b33baa0991c3e432f3ca18..f0c72be4a0dacad52ded87fa051b8505c1b79eae 100644
+index 2a8a8030feefae84e394460612405887e63f2ac7..577df1ad8eb57ae7a53c9931c379824a6882fa5f 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 @@ -334,7 +334,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
@@ -297,10 +297,10 @@ index 2d09d39a5971615a40b33baa0991c3e432f3ca18..f0c72be4a0dacad52ded87fa051b8505
  
      public boolean mayBreak(Level world) {
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java b/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
-index 9d43c8520953d6fe0d0948f9dbe14e0650ee01c2..deee9fffe6981d7e728621cc799a812d78000592 100644
+index 6724fe4470aeea338eb4cfd10a7e61fbcac1e5b7..dd38f32ac6a62905c9a79dacf85cf073fa6941b3 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/SmallFireball.java
-@@ -24,7 +24,7 @@ public class SmallFireball extends Fireball {
+@@ -27,7 +27,7 @@ public class SmallFireball extends Fireball {
          super(EntityType.SMALL_FIREBALL, owner, velocityX, velocityY, velocityZ, world);
          // CraftBukkit start
          if (this.getOwner() != null && this.getOwner() instanceof Mob) {
@@ -310,10 +310,10 @@ index 9d43c8520953d6fe0d0948f9dbe14e0650ee01c2..deee9fffe6981d7e728621cc799a812d
          // CraftBukkit end
      }
 diff --git a/src/main/java/net/minecraft/world/entity/raid/Raider.java b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-index 226fb5c88dd43c8008c5237299ef80db9e847af7..2da00acac01e333c23f7d155594011dceeb50f64 100644
+index 93bbf7556f9599e9dd90761085a57d78bd521867..b3912881892b4f1bca577761083c5da1568c8187 100644
 --- a/src/main/java/net/minecraft/world/entity/raid/Raider.java
 +++ b/src/main/java/net/minecraft/world/entity/raid/Raider.java
-@@ -319,7 +319,7 @@ public abstract class Raider extends PatrollingMonster {
+@@ -322,7 +322,7 @@ public abstract class Raider extends PatrollingMonster {
  
          @Override
          public boolean canUse() {
@@ -336,7 +336,7 @@ index 5b96d1ae4bd8546311e986bc312b1f85883a67f4..07b148fc31aee3ce009d1d768ae16d98
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/FarmBlock.java b/src/main/java/net/minecraft/world/level/block/FarmBlock.java
-index 386841341b59f05be0473bbfd2baf14c9b8e94c8..7f2943caa60fd8607fb525b746663a761bf1951c 100644
+index e8514465772a748afe19039d7ce5be0baa303243..e9ab88a5c68565f2245b3397edcffb0544a29fea 100644
 --- a/src/main/java/net/minecraft/world/level/block/FarmBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/FarmBlock.java
 @@ -110,7 +110,7 @@ public class FarmBlock extends Block {
@@ -375,7 +375,7 @@ index a98f04c892d6e11e311b16af36e824857dd3bc76..430ccf1b9f5c6306bbe610d1f9058c1a
      }
  }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index fb8d380b90338b91c7481b4c3242ab3336e32370..5e0667dbce808de7f81a68347152094036d70ec0 100644
+index 8a7538298f1f23652a3122750f9be8fdb6678150..6fbc12411573bbc4794319d41655a1e18ab62768 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -115,8 +115,11 @@ public class PurpurWorldConfig {
@@ -427,9 +427,9 @@ index fb8d380b90338b91c7481b4c3242ab3336e32370..5e0667dbce808de7f81a683471520940
      public double respawnAnchorExplosionPower = 5.0D;
      public boolean respawnAnchorExplosionFire = true;
 @@ -500,10 +513,12 @@ public class PurpurWorldConfig {
-     public boolean turtleEggsBreakFromExpOrbs = true;
-     public boolean turtleEggsBreakFromItems = true;
-     public boolean turtleEggsBreakFromMinecarts = true;
+     public boolean turtleEggsBreakFromExpOrbs = false;
+     public boolean turtleEggsBreakFromItems = false;
+     public boolean turtleEggsBreakFromMinecarts = false;
 +    public boolean turtleEggsBypassMobGriefing = false;
      private void turtleEggSettings() {
          turtleEggsBreakFromExpOrbs = getBoolean("blocks.turtle_egg.break-from-exp-orbs", turtleEggsBreakFromExpOrbs);

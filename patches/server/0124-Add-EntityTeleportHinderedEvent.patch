@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-index a0c1db8cfebaa0344012cc0af18d6231cdcdcbb8..a5a8bd6813b68ab2e913fc3ae30c9950c242beb3 100644
+index 4ba24bced9a2de4616a0418857d3738e0e322ea0..6660bea735dda46ab9493601f1f53b8e0075ca83 100644
 --- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 @@ -54,6 +54,14 @@ public class EndPortalBlock extends BaseEntityBlock {
@@ -55,10 +55,10 @@ index 1b5cc5d6aa0b4313da980ce175c54145852d0db0..613df7b174ba4cb87314a631ebc7dfed
              EntityPortalEnterEvent event = new EntityPortalEnterEvent(entity.getBukkitEntity(), new org.bukkit.Location(world.getWorld(), pos.getX(), pos.getY(), pos.getZ()));
              world.getCraftServer().getPluginManager().callEvent(event);
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-index f5f464e69bfb00f5ea493d109bdd96e459fcad46..c3d25a26883f7cbe7106c2f3415af0b18f534ee2 100644
+index 8be3d696f6401189406032dd8d45dc747f546df5..4997f120aa9877c199fbcaa0c2f65226e13b5a23 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-@@ -178,6 +178,14 @@ public class TheEndGatewayBlockEntity extends TheEndPortalBlockEntity {
+@@ -172,6 +172,14 @@ public class TheEndGatewayBlockEntity extends TheEndPortalBlockEntity {
      public static void teleportEntity(Level world, BlockPos pos, BlockState state, Entity entity, TheEndGatewayBlockEntity blockEntity) {
          if (world instanceof ServerLevel && !blockEntity.isCoolingDown()) {
              if (!entity.canChangeDimensions()) return; // Purpur
@@ -74,10 +74,10 @@ index f5f464e69bfb00f5ea493d109bdd96e459fcad46..c3d25a26883f7cbe7106c2f3415af0b1
  
              blockEntity.teleportCooldown = 100;
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 39ae3335866669be54f31ee6cd10d41bc70b193c..a260e3768892dcf7ddd955cf8753d4d19cd2e8d3 100644
+index 74599d29538b7072464d3bb16b6356da09513d21..61348dfaab2fe3da35ae3195b7224e4b239dddd8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -252,6 +252,10 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -253,6 +253,10 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
          // Paper end
  
          if ((!ignorePassengers && this.entity.isVehicle()) || this.entity.isRemoved()) { // Paper - Teleport passenger API
@@ -89,10 +89,10 @@ index 39ae3335866669be54f31ee6cd10d41bc70b193c..a260e3768892dcf7ddd955cf8753d4d1
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 84ab7296ca213ccc2d8983b6a4417993cbed70b5..4efb8e47a29249cbca52b637d6f721cf2a9afcfb 100644
+index bcf3393ad12a70eea0e1b24f69fac15b08af32fb..f74e632f6be8ab2c7bdf9f5ba2ad2a2a0ef4d14e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -1326,6 +1326,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1356,6 +1356,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
  
          if (entity.isVehicle() && !ignorePassengers) { // Paper - Teleport API
@@ -104,7 +104,7 @@ index 84ab7296ca213ccc2d8983b6a4417993cbed70b5..4efb8e47a29249cbca52b637d6f721cf
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index ed61bb01ef1235df2d89bb8f173cbcda4bb65d44..5f13cfd5ebc40793242136570948a87dce867f59 100644
+index 81b64e25046f212d48a729726758464bb9e42e7f..9f2e762af41f422cef9937896427332d06d545e9 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -117,6 +117,7 @@ public class PurpurWorldConfig {

@@ -5,10 +5,10 @@ Subject: [PATCH] Ridables
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 1d0fd7ff8449f815a7d980af0b378181ea8bf8d8..566c74756c66db859a4f738a7716a61d012c6df1 100644
+index d9929d9311e4b2b0ae13a8f6f13563257263f298..ee617a8681d2d887216d63211ed0595dc1fe7ddb 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -1107,4 +1107,35 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -1104,4 +1104,35 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      @NotNull String getScoreboardEntryName();
      // Paper end - entity scoreboard name

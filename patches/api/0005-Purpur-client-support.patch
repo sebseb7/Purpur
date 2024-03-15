@@ -5,10 +5,10 @@ Subject: [PATCH] Purpur client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 31aa6ef5fc2b3b88c72f5a15b8cc7a0e50c29f46..1a9c00eae76694f9b1ebbb655124b34b160997cb 100644
+index c6cb4f17469a8f2e60dd3e28d41402851ce5fb21..6692bc3bedf0f78a3b8cd937e1943d1113e51584 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3619,4 +3619,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -3711,4 +3711,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end

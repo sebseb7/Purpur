@@ -5,10 +5,10 @@ Subject: [PATCH] Entity lifespan
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 29537f37bc0c0d5b46813c700d9bd96fefc8d599..9d008bc7d99e0fc61260a2bf3f7ace118596d5f3 100644
+index 1cc86f8dd63802b7227de56b44c859c253a80756..b9a4815d6f942d78851213224a475b154c264d86 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2731,6 +2731,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2749,6 +2749,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
              AABB axisalignedbb = entity.getBoundingBox();
  
              if (axisalignedbb.distanceToSqr(this.player.getEyePosition()) < ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) {
@@ -17,10 +17,10 @@ index 29537f37bc0c0d5b46813c700d9bd96fefc8d599..9d008bc7d99e0fc61260a2bf3f7ace11
                      private void performInteraction(InteractionHand enumhand, ServerGamePacketListenerImpl.EntityInteraction playerconnection_a, PlayerInteractEntityEvent event) { // CraftBukkit
                          ItemStack itemstack = ServerGamePacketListenerImpl.this.player.getItemInHand(enumhand);
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bbdb73e159 100644
+index b30292dcc9bbfc0ded94ee8a0f4a5e949327da54..20e8c3c88891f0fe20556b700fab5122682b2bdb 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -136,6 +136,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -137,6 +137,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
      private BlockPos restrictCenter;
      private float restrictRadius;
  
@@ -28,7 +28,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
      public boolean aware = true; // CraftBukkit
  
      protected Mob(EntityType<? extends Mob> type, Level world) {
-@@ -325,6 +326,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -326,6 +327,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
                  entityliving = null;
              }
          }
@@ -36,7 +36,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
          this.target = entityliving;
          return true;
          // CraftBukkit end
-@@ -372,8 +374,28 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -373,8 +375,28 @@ public abstract class Mob extends LivingEntity implements Targeting {
          }
  
          this.level().getProfiler().pop();
@@ -57,7 +57,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
 +            return; // mob persistent
 +        }
 +        if (this.ticksSinceLastInteraction > this.level().purpurConfig.entityLifeSpan) {
-+            this.discard();
++            this.discard(org.bukkit.event.entity.EntityRemoveEvent.Cause.DISCARD);
 +        }
 +    }
 +    // Purpur end
@@ -65,7 +65,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
      @Override
      protected void playHurtSound(DamageSource source) {
          this.resetAmbientSoundTime();
-@@ -563,6 +585,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -564,6 +586,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
          }
  
          nbt.putBoolean("Bukkit.Aware", this.aware); // CraftBukkit
@@ -73,7 +73,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
      }
  
      @Override
-@@ -633,6 +656,11 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -634,6 +657,11 @@ public abstract class Mob extends LivingEntity implements Targeting {
              this.aware = nbt.getBoolean("Bukkit.Aware");
          }
          // CraftBukkit end
@@ -85,7 +85,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
      }
  
      @Override
-@@ -1709,6 +1737,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -1717,6 +1745,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
              this.setLastHurtMob(target);
          }
  
@@ -94,7 +94,7 @@ index f1df9e038d919f7dc0404fda796426037833b778..ed2909d3eee566771ea910e1937009bb
      }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index 61aaa72034c4b8b964b65aab7b9edb4d3471bf93..f88bcb94067626daf8fe080f85de15dc81536fee 100644
+index 55ae989ae13ae9c0730f6f8df5f7eba52a560b1f..9ba3a90e1af9c733949c52988c56c05af46356e8 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -125,6 +125,11 @@ public class PurpurWorldConfig {

@@ -5,10 +5,10 @@ Subject: [PATCH] AFK API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 1a9c00eae76694f9b1ebbb655124b34b160997cb..89ed5f11862012b634916aaf531475de18dacd07 100644
+index 6692bc3bedf0f78a3b8cd937e1943d1113e51584..654516bb7545d74a9e00efc154b5b75707038c96 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3627,5 +3627,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -3719,5 +3719,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return True if Player uses Purpur Client
       */
      public boolean usesPurpurClient();

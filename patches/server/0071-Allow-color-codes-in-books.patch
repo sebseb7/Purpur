@@ -5,10 +5,10 @@ Subject: [PATCH] Allow color codes in books
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 7c829f26b29bb3e02248bfd8d63b600c232ebd3e..063a1a979755d63bd3d099f07348c7a587adbe3d 100644
+index 56589f5c674670534ecf0b97c73c97e302716b9c..39950e314ee9373c9b2a7a70dac1977ee7a303bf 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1231,13 +1231,16 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1245,13 +1245,16 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  itemstack1.setTag(nbttagcompound.copy());
              }
  
@@ -28,7 +28,7 @@ index 7c829f26b29bb3e02248bfd8d63b600c232ebd3e..063a1a979755d63bd3d099f07348c7a5
  
              this.updateBookPages(pages, (s) -> {
                  return Component.Serializer.toJson(Component.literal(s));
-@@ -1249,10 +1252,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1263,10 +1266,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
      private void updateBookPages(List<FilteredText> list, UnaryOperator<String> unaryoperator, ItemStack itemstack, int slot, ItemStack handItem) { // CraftBukkit
          ListTag nbttaglist = new ListTag();
  
@@ -44,7 +44,7 @@ index 7c829f26b29bb3e02248bfd8d63b600c232ebd3e..063a1a979755d63bd3d099f07348c7a5
  
              Objects.requireNonNull(nbttaglist);
              stream.forEach(nbttaglist::add);
-@@ -1262,11 +1268,11 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1276,11 +1282,11 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
  
              for (int j = list.size(); i < j; ++i) {
                  FilteredText filteredtext = (FilteredText) list.get(i);
@@ -58,7 +58,7 @@ index 7c829f26b29bb3e02248bfd8d63b600c232ebd3e..063a1a979755d63bd3d099f07348c7a5
                  }
              }
  
-@@ -1279,6 +1285,16 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1293,6 +1299,16 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          this.player.getInventory().setItem(slot, CraftEventFactory.handleEditBookEvent(this.player, slot, handItem, itemstack)); // CraftBukkit // Paper - Don't ignore result (see other callsite for handleEditBookEvent)
      }
  

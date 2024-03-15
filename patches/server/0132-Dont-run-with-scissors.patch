@@ -5,10 +5,10 @@ Subject: [PATCH] Dont run with scissors!
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 1de057f671018b47087cd87b16bcd54de1ff7753..60fbeef064be1ce044ae870efa38e69d95afbaa2 100644
+index 79034a8fdf8d8d71056bec84b05ad70ae5ceb99e..cac4127571c514a6f7697f31eb7d1edeca47d99a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1639,6 +1639,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1653,6 +1653,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                      this.player.resetFallDistance();
                                  }
  
@@ -22,7 +22,7 @@ index 1de057f671018b47087cd87b16bcd54de1ff7753..60fbeef064be1ce044ae870efa38e69d
                                  this.player.checkMovementStatistics(this.player.getX() - d3, this.player.getY() - d4, this.player.getZ() - d5);
                                  this.lastGoodX = this.player.getX();
                                  this.lastGoodY = this.player.getY();
-@@ -1678,6 +1685,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1692,6 +1699,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          return false;
      }
      // Paper end - optimise out extra getCubes
@@ -37,7 +37,7 @@ index 1de057f671018b47087cd87b16bcd54de1ff7753..60fbeef064be1ce044ae870efa38e69d
          AABB axisalignedbb1 = this.player.getBoundingBox().move(newX - this.player.getX(), newY - this.player.getY(), newZ - this.player.getZ());
          Iterable<VoxelShape> iterable = world.getCollisions(this.player, axisalignedbb1.deflate(9.999999747378752E-6D));
 diff --git a/src/main/java/net/minecraft/world/damagesource/CombatTracker.java b/src/main/java/net/minecraft/world/damagesource/CombatTracker.java
-index 9c99b2e365aacb8309f29acb9025faccd2c676b3..9e3608650c44ef5fa724c3aea86603d7bd02429c 100644
+index 9c99b2e365aacb8309f29acb9025faccd2c676b3..5c9d49b40a940df724101bef339a9ac5a31fd025 100644
 --- a/src/main/java/net/minecraft/world/damagesource/CombatTracker.java
 +++ b/src/main/java/net/minecraft/world/damagesource/CombatTracker.java
 @@ -99,6 +99,11 @@ public class CombatTracker {
@@ -45,7 +45,7 @@ index 9c99b2e365aacb8309f29acb9025faccd2c676b3..9e3608650c44ef5fa724c3aea86603d7
                  return Component.translatable(string + ".message", this.mob.getDisplayName(), component);
              } else {
 +                // Purpur start
-+                if (damageSource.isScissors) {
++                if (damageSource.isScissors()) {
 +                    return damageSource.getLocalizedDeathMessage(org.purpurmc.purpur.PurpurConfig.deathMsgRunWithScissors, this.mob);
 +                }
 +                // Purpur end
@@ -53,34 +53,74 @@ index 9c99b2e365aacb8309f29acb9025faccd2c676b3..9e3608650c44ef5fa724c3aea86603d7
              }
          }
 diff --git a/src/main/java/net/minecraft/world/damagesource/DamageSource.java b/src/main/java/net/minecraft/world/damagesource/DamageSource.java
-index dad8d358e60902eb186cbc5686219f66d3babf89..189664637d3d73b141c84823f0099bcda9b607e3 100644
+index 938524dc5b495ad160b9b14219db573e4e7c6a8a..f7786be77a0594fa5e11a328648cbad16bbab2e1 100644
 --- a/src/main/java/net/minecraft/world/damagesource/DamageSource.java
 +++ b/src/main/java/net/minecraft/world/damagesource/DamageSource.java
-@@ -54,6 +54,8 @@ public class DamageSource {
-     // CraftBukkit end
-     public @Nullable org.bukkit.block.BlockState explodedBlockState; // Paper - add exploded state
+@@ -27,6 +27,7 @@ public class DamageSource {
+     private boolean withSweep = false;
+     private boolean melting = false;
+     private boolean poison = false;
++    private boolean scissors = false; // Purpur
+     private Entity customCausingEntity = null; // This field is a helper for when causing entity damage is not set by vanilla
  
-+    public boolean isScissors; // Purpur
-+
-     public String toString() {
-         return "DamageSource (" + this.type().msgId() + ")";
+     public DamageSource sweep() {
+@@ -56,6 +57,17 @@ public class DamageSource {
+         return this.poison;
      }
-diff --git a/src/main/java/net/minecraft/world/damagesource/DamageSources.java b/src/main/java/net/minecraft/world/damagesource/DamageSources.java
-index f339475185645f7be30963e4f980ce81a6f7e536..6a7fe56485f0da9094c816f9fd5aacf7e5946730 100644
---- a/src/main/java/net/minecraft/world/damagesource/DamageSources.java
-+++ b/src/main/java/net/minecraft/world/damagesource/DamageSources.java
-@@ -267,4 +267,11 @@ public class DamageSources {
-     public DamageSource genericKill() {
-         return this.genericKill;
-     }
+ 
 +    // Purpur start
 +    public DamageSource scissors() {
-+        DamageSource source = new DamageSource(this.damageTypes.getHolderOrThrow(DamageTypes.MAGIC));
-+        source.isScissors = true;
-+        return source;
++        this.scissors = true;
++        return this;
++    }
++
++    public boolean isScissors() {
++        return this.scissors;
 +    }
 +    // Purpur end
- }
++
+     public Entity getCausingEntity() {
+         return (this.customCausingEntity != null) ? this.customCausingEntity : this.causingEntity;
+     }
+@@ -94,6 +106,7 @@ public class DamageSource {
+         damageSource.withSweep = this.isSweep();
+         damageSource.poison = this.isPoison();
+         damageSource.melting = this.isMelting();
++        damageSource.scissors = this.isScissors(); // Purpur
+         return damageSource;
+     }
+     // CraftBukkit end
+diff --git a/src/main/java/net/minecraft/world/damagesource/DamageSources.java b/src/main/java/net/minecraft/world/damagesource/DamageSources.java
+index a47473c9875c70c52b9a61e0156e55961f34c694..23c7f22dacc570837120c28e0a57f8c9155e92fc 100644
+--- a/src/main/java/net/minecraft/world/damagesource/DamageSources.java
++++ b/src/main/java/net/minecraft/world/damagesource/DamageSources.java
+@@ -44,11 +44,13 @@ public class DamageSources {
+     // CraftBukkit start
+     private final DamageSource melting;
+     private final DamageSource poison;
++    private final DamageSource scissors; // Purpur
+ 
+     public DamageSources(RegistryAccess registryManager) {
+         this.damageTypes = registryManager.registryOrThrow(Registries.DAMAGE_TYPE);
+         this.melting = this.source(DamageTypes.ON_FIRE).melting();
+         this.poison = this.source(DamageTypes.MAGIC).poison();
++        this.scissors = this.source(DamageTypes.MAGIC).scissors(); // Purpur
+         // CraftBukkit end
+         this.inFire = this.source(DamageTypes.IN_FIRE);
+         this.lightningBolt = this.source(DamageTypes.LIGHTNING_BOLT);
+@@ -97,6 +99,12 @@ public class DamageSources {
+     }
+     // CraftBukkit end
+ 
++    // Purpur start
++    public DamageSource scissors() {
++        return this.scissors;
++    }
++    // Purpur end
++
+     public DamageSource inFire() {
+         return this.inFire;
+     }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 index 57734b187e3a66d0d244db2f7968256884957ff2..6714c095714c3a34464b9190be964ceaac718d45 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
@@ -107,7 +147,7 @@ index 57734b187e3a66d0d244db2f7968256884957ff2..6714c095714c3a34464b9190be964cea
  
      public static String serverModName = "Purpur";
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index ecfbfc843b534196ff19c2e45989f0271f9e8105..96835763638abbc120f63a67a9ac4cb853739d78 100644
+index 6d017d5d3cfe8581936b8f1fb58656ff2b2fdf95..9fa138e30e3885a760e40f8da32a8a86acf150b7 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -197,6 +197,10 @@ public class PurpurWorldConfig {

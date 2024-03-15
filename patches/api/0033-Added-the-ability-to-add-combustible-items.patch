@@ -5,10 +5,10 @@ Subject: [PATCH] Added the ability to add combustible items
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 61ac743590e85e744664d16e02ba0e7027e8dd49..610887890529db62887174a10e1687ea1883fafa 100644
+index 812d903e8883ab087ec7ae154d76dceb019bac17..17bb5de3f1216ddfcb66152a0791c63334460051 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2861,5 +2861,24 @@ public final class Bukkit {
+@@ -2897,5 +2897,24 @@ public final class Bukkit {
      public static boolean isLagging() {
          return server.isLagging();
      }
@@ -34,10 +34,10 @@ index 61ac743590e85e744664d16e02ba0e7027e8dd49..610887890529db62887174a10e1687ea
      // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index e37b5bd4cf7a3ae1d0e7ef01c4718e99392eed59..c001488119c64f9ee2babce29a8ff9f86aec9bfb 100644
+index 45287918b72c3053f21b56cd33b6daf692c9888a..109811ccc128006e29751e2242e171519c8557c7 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2508,5 +2508,20 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2539,5 +2539,20 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       * @return True if lagging
       */
      boolean isLagging();

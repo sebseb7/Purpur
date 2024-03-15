@@ -5,10 +5,10 @@ Subject: [PATCH] Add player death exp control options
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index dac631ffd190829e299ab30415ade7c06f70f4c3..346b4027006d5cde97ec5bc4599635b145a76de1 100644
+index 97805659af862213e9217c408519563de2be5b35..e68ed7339d8aed2b97e310edeee3960611ed7bf1 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1933,9 +1933,19 @@ public abstract class Player extends LivingEntity {
+@@ -1944,9 +1944,19 @@ public abstract class Player extends LivingEntity {
      @Override
      public int getExperienceReward() {
          if (!this.level().getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY) && !this.isSpectator()) {
@@ -32,7 +32,7 @@ index dac631ffd190829e299ab30415ade7c06f70f4c3..346b4027006d5cde97ec5bc4599635b1
              return 0;
          }
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
-index f8350126625341c4defc9a5d47f8ed42875c0241..f83d25ca31593e39fc64f292f0c6daaeac01d713 100644
+index 09c131e3b5282d1ac1230ddc2677f2a49449dc48..66e12893bb9d8984a8cd2916834c5e86058f47bb 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurWorldConfig.java
 @@ -171,6 +171,8 @@ public class PurpurWorldConfig {

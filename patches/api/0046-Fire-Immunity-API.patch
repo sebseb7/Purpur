@@ -5,10 +5,10 @@ Subject: [PATCH] Fire Immunity API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index c20f29e1ddfd1d73df19f6d6f730fa23dc23dc7a..42b8de355855baecd0a435314909116c210d002d 100644
+index 9fee171108e335827c5c164144284eb5a598742c..a36fc32dd83339b6939cb4046538ec6285042397 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -1144,5 +1144,18 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -1141,5 +1141,18 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       * @return True if in daylight
       */
      boolean isInDaylight();
